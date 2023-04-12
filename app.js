@@ -7,14 +7,26 @@ const schema = require("./schema/schema");
 const cors = require("cors");
 const path = require("path");
 const auth = require("./middleware/auth");
+// const { buildSchema, GraphQLSchema } = require("graphql");
+
+// const schema = buildSchema(`
+//     type Query {
+//         hello: String
+//     }
+// `);
+
+// const root = {
+//     hello: () => {
+//         return "Hello world!";
+//     },
+// };
 
 // connection à la base de données mangoose
 mongoose
-    .connect(
-        "mongodb://127.0.0.1:27017/Transformers",
-        // "mongodb+srv://nodejsbackend:9cKz7LHGegmizz9l@cluster0.jlewrwr.mongodb.net/?retryWrites=true&w=majority",
-        { useNewUrlParser: true, useUnifiedTopology: true }
-    )
+    .connect("mongodb://127.0.0.1:27017/Transformers", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
     .then(() => console.log("Connexion à MongoDB réussie !"))
     .catch(() => console.log("Connexion à MongoDB échouée !"));
 
@@ -37,10 +49,12 @@ app.use((req, res, next) => {
 });
 // app.use(auth);
 app.use("/images", express.static(path.join(__dirname, "images")));
+
 app.use(
     "/graphql",
     graphqlHTTP({
-        schema: schema,
+        schema: schema.schema,
+        rootValue: schema.root,
         graphiql: true,
     })
 );
