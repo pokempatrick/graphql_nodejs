@@ -7,6 +7,7 @@ const schema = require("./schema/schema");
 const cors = require("cors");
 const path = require("path");
 const auth = require("./middleware/auth");
+const rootResolver = require("./resolvers");
 // const { buildSchema, GraphQLSchema } = require("graphql");
 
 // const schema = buildSchema(`
@@ -54,7 +55,7 @@ app.use(
     "/graphql",
     graphqlHTTP({
         schema: schema.schema,
-        rootValue: schema.root,
+        rootValue: rootResolver,
         graphiql: true,
     })
 );
