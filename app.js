@@ -2,27 +2,13 @@ const express = require("express");
 const app = express();
 const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
-const schema = require("./schema/schema");
-
 const cors = require("cors");
 const path = require("path");
+
 const auth = require("./middleware/auth");
+const schema = require("./schema");
 const rootResolver = require("./resolvers");
-// const { buildSchema, GraphQLSchema } = require("graphql");
 
-// const schema = buildSchema(`
-//     type Query {
-//         hello: String
-//     }
-// `);
-
-// const root = {
-//     hello: () => {
-//         return "Hello world!";
-//     },
-// };
-
-// connection à la base de données mangoose
 mongoose
     .connect("mongodb://127.0.0.1:27017/Transformers", {
         useNewUrlParser: true,
@@ -54,7 +40,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(
     "/graphql",
     graphqlHTTP({
-        schema: schema.schema,
+        schema: schema,
         rootValue: rootResolver,
         graphiql: true,
     })

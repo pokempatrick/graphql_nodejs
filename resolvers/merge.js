@@ -28,8 +28,8 @@ const transformAuthor = (author) => ({
     ...author._doc,
     id: author.id,
     books: books.bind(this, author.id),
-    createdAt: stringDate(book._doc.createdAt),
-    updatedAt: stringDate(book._doc.updatedAt),
+    createdAt: stringDate(author._doc.createdAt),
+    updatedAt: stringDate(author._doc.updatedAt),
 });
 
 exports.transformAuthor = transformAuthor;
