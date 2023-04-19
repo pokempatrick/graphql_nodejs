@@ -1,4 +1,4 @@
-const Book = require("../models/book");
+const Book = require("../../models/book");
 const { transformBook } = require("./merge");
 
 exports.bookResolver = {

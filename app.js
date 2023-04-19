@@ -6,8 +6,8 @@ const cors = require("cors");
 const path = require("path");
 
 const auth = require("./middleware/auth");
-const schema = require("./schema");
-const rootResolver = require("./resolvers");
+const schema = require("./graqhql/schema");
+const rootResolver = require("./graqhql/resolvers");
 
 mongoose
     .connect("mongodb://127.0.0.1:27017/Transformers", {

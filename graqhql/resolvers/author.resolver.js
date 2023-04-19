@@ -1,4 +1,4 @@
-const Author = require("../models/author");
+const Author = require("../../models/author");
 const { transformAuthor } = require("./merge");
 
 exports.authorResolver = {
