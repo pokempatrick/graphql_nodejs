@@ -1,7 +1,7 @@
 const Book = require("../../models/book");
-const { transformBook } = require("./merge");
+const { transformBook } = require("../../helpers/merge");
 
-exports.bookResolver = {
+module.exports = {
     // query
     books: () =>
         Book.find({}).then((books) => books.map((book) => transformBook(book))),

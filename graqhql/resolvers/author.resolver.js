@@ -1,7 +1,7 @@
 const Author = require("../../models/author");
-const { transformAuthor } = require("./merge");
+const { transformAuthor } = require("../../helpers/merge");
 
-exports.authorResolver = {
+module.exports = {
     // queries
     author: (args) =>
         Author.findById(args.id).then((author) => transformAuthor(author)),

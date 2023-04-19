@@ -1,6 +1,6 @@
-const { stringDate } = require("../../helpers/stringDate");
-const Author = require("../../models/author");
-const Book = require("../../models/book");
+const { stringDate } = require("./stringDate");
+const Author = require("../models/author");
+const Book = require("../models/book");
 
 const author = (authorId) =>
     Author.findById(authorId)
