@@ -1,9 +1,9 @@
 module.exports = `
 type Author {
-    id: ID,
+    id: ID 
     name: String!
-    updateAt: String
-    createAt: String
+    updatedAt: String  
+    createdAt: String  
     books:[Book!]
 }
 type Message {message:String!}

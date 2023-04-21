@@ -1,10 +1,15 @@
-module.exports = `type Book {
+const directives = require("../directives");
+const { authDirectiveTypeDefs } = directives.authDirective("auth");
+
+module.exports = `
+${authDirectiveTypeDefs}
+type Book {
     id: ID,
     name: String!
     genre: String!
     authorId: String!
-    updatedAt: String
-    createdAt: String
+    updatedAt: String @auth(requires: admin)
+    createdAt: String 
     author:Author 
 }
 
