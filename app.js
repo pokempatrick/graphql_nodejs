@@ -10,10 +10,13 @@ const schema = require("./graqhql/schema");
 const rootResolver = require("./graqhql/resolvers");
 
 mongoose
-    .connect("mongodb://127.0.0.1:27017/Transformers", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    .connect(
+        process.env.DATA_BASE || "mongodb://127.0.0.1:27017/Transformers",
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
     .then(() => console.log("Connexion à MongoDB réussie !"))
     .catch(() => console.log("Connexion à MongoDB échouée !"));
 
