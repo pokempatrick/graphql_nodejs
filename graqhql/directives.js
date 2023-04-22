@@ -63,10 +63,12 @@ exports.authDirective = (directiveName, getUserFn) => {
 
 const isGrantedLimitedAccess = (req) => {
     try {
-        new Date(req.user.limitedAccessDate) > new Date() ||
-            req?.user?.role.includes("admin");
+        return (
+            new Date(req.user.limitedAccessDate) > new Date() ||
+            req?.user?.role.includes("admin")
+        );
     } catch (error) {
-        throw new Error("not authorized");
+        throw new Error("Internal error");
     }
 };
 

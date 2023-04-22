@@ -13,8 +13,8 @@ module.exports = `
         lastName: String!  
         email: String!
         limitedAccessDate: String  
-        updatedAt: String 
-        createdAt: String 
+        updatedDate: String 
+        createdDate: String 
         phoneNumber: Int
         imageUrl: String
         user: UserSign

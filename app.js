@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     );
     next();
 });
-// app.use(auth);
+app.use(auth);
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(

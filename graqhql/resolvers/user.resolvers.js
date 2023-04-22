@@ -36,8 +36,8 @@ module.exports = {
                     currentPage: parseInt(page),
                 };
             })
-            .catch((error) => {
-                throw new Error("Process Error", error);
+            .catch(() => {
+                throw new Error("Invalid request");
             });
     },
     user: (args) => User.findById(args.id),
@@ -53,8 +53,8 @@ module.exports = {
                 ...userObject,
                 password: hash,
             });
-            return user.save().catch((error) => {
-                throw new Error("Process Error", error);
+            return user.save().catch(() => {
+                throw new Error("Invalid request");
             });
         });
     },
@@ -72,8 +72,8 @@ module.exports = {
             { runValidators: true }
         )
             .then(() => User.findOne({ _id: inputUser.id }))
-            .catch((error) => {
-                throw new Error("Process Error", error);
+            .catch(() => {
+                throw new Error("Invalid request");
             });
     },
 
@@ -121,8 +121,8 @@ module.exports = {
         User.findOne({ _id: id }).then((user) => {
             const filename = user?.imageUrl?.split("/images/")[1];
             fs.unlink(`images/${filename}`, () =>
-                User.deleteOne({ _id: id }).catch((error) => {
-                    throw new Error("Process Error", error);
+                User.deleteOne({ _id: id }).catch(() => {
+                    throw new Error("Invalid request");
                 })
             );
             return { message: "Objet supprimé !" };

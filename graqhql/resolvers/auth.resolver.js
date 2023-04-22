@@ -31,71 +31,54 @@ const sendRecoverMail = (userEmail, code) => {
 module.exports = {
     // query
     login: ({ email, password }, req) => {
-        return User.findOne({ email })
-            .then((user) => {
-                if (!user) {
-                    throw new Error("User does not exist");
+        return User.findOne({ email }).then((user) => {
+            if (!user) {
+                throw new Error("User does not exist");
+            }
+            return bcrypt.compare(password, user.password).then((valid) => {
+                if (!valid) {
+                    throw new Error("Password incorrect");
                 }
-                return bcrypt
-                    .compare(password, user.password)
-                    .then((valid) => {
-                        if (!valid) {
-                            throw new Error("Password incorrect");
-                        }
-                        return {
+                return {
+                    userId: user._id,
+                    token: jwt.sign(
+                        {
                             userId: user._id,
-                            token: jwt.sign(
-                                {
-                                    userId: user._id,
-                                    userRole: user.role,
-                                    userEmail: user.email,
-                                },
-                                process.env.SECRET_TOKEN ||
-                                    "RANDOM_TOKEN_SECRET",
-                                { expiresIn: "24h" }
-                            ),
-                        };
-                    })
-                    .catch((error) => {
-                        throw new Error("Process Error", error);
-                    });
-            })
-            .catch((error) => {
-                throw new Error("Process Error", error);
+                            userRole: user.role,
+                            userEmail: user.email,
+                        },
+                        process.env.SECRET_TOKEN || "RANDOM_TOKEN_SECRET",
+                        { expiresIn: "24h" }
+                    ),
+                };
             });
+        });
     },
 
     sendCode: ({ email }) => {
-        return User.findOne({ email })
-            .then((user) => {
-                if (!user) {
-                    throw new Error("User does not exist");
-                }
-                const uncripted_code = Math.floor(
-                    Math.random() * 10000
-                ).toString();
-                return bcrypt.hash(uncripted_code, 10).then((hash) => {
-                    user.code = hash;
-                    sendRecoverMail(user.email, uncripted_code);
-                    return {
-                        message: "Code de vérification envoyé",
-                        userId: user._id,
-                        token: jwt.sign(
-                            {
-                                userId: user._id,
-                                userRole: user.role,
-                                code: user.code,
-                            },
-                            process.env.SECRET_TOKEN_2 ||
-                                "RANDOM_TOKEN_SECRET4",
-                            { expiresIn: "1h" }
-                        ),
-                    };
-                });
-            })
-            .catch((error) => {
-                throw new Error("Process Error", error);
+        return User.findOne({ email }).then((user) => {
+            if (!user) {
+                throw new Error("User does not exist");
+            }
+            const uncripted_code = Math.floor(Math.random() * 10000).toString();
+            return bcrypt.hash(uncripted_code, 10).then((hash) => {
+                user.code = hash;
+                sendRecoverMail(user.email, uncripted_code);
+                return {
+                    message: "Code de vérification envoyé",
+                    userId: user._id,
+                    token: jwt.sign(
+                        {
+                            userId: user._id,
+                            userRole: user.role,
+                            code: user.code,
+                        },
+                        process.env.SECRET_TOKEN_2 || "RANDOM_TOKEN_SECRET4",
+                        { expiresIn: "1h" }
+                    ),
+                };
             });
+        });
     },
     checkCode: ({ code }) => {
         try {
