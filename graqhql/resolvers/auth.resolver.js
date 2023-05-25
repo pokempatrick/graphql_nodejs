@@ -7,13 +7,13 @@ const sendRecoverMail = (userEmail, code) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL || "gestiontransfo@gmail.com",
+            user: process.env.EMAIL || "pokempatrick@gmail.com",
             pass: process.env.EMAIL_PASSWORD || "hrohoorirfgcxyes",
         },
     });
 
     const mailOptions = {
-        from: process.env.EMAIL || "gestiontransfo@gmail.com",
+        from: process.env.EMAIL || "pokempatrick@gmail.com",
         to: userEmail,
         subject: "Recover Password",
         text: `This the your code to recover the Password ${code}, 
